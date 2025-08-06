@@ -1,7 +1,0 @@
-﻿iam user
-
-aws-user
-w{X21!#h
-access_key: AKIA4T3B25K3PJGRIIPI
-secret_key: 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
-
