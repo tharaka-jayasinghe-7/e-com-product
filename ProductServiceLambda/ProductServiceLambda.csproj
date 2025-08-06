@@ -1,23 +1,41 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
-    <AWSProjectType>Lambda</AWSProjectType>
-    <!-- This property makes the build directory similar to a publish directory and helps the AWS .NET Lambda Mock Test Tool find project dependencies. -->
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <!-- Generate ready to run images during publishing to improve cold start time. -->
-    <PublishReadyToRun>true</PublishReadyToRun>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Amazon.Lambda.APIGatewayEvents" Version="2.7.1" />
-    <PackageReference Include="Amazon.Lambda.Core" Version="2.7.0" />
-    <PackageReference Include="Amazon.Lambda.Serialization.SystemTextJson" Version="2.4.4" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Application\Application.csproj" />
-    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
-    <ProjectReference Include="..\Domain\Domain.csproj" />
-  </ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+
+        <!-- Required for AWS Lambda Project -->
+        <AWSProjectType>Lambda</AWSProjectType>
+
+        <!-- Ensure assemblies are available in the build directory -->
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+
+        <!-- Optimize cold start -->
+        <PublishReadyToRun>true</PublishReadyToRun>
+
+        <!-- Specify Linux runtime for Lambda -->
+        <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
+
+        <!-- Ensure self-contained deployment -->
+        <SelfContained>false</SelfContained>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- AWS Lambda Core Libraries -->
+        <PackageReference Include="Amazon.Lambda.Core" Version="2.7.0" />
+        <PackageReference Include="Amazon.Lambda.APIGatewayEvents" Version="2.7.1" />
+        <PackageReference Include="Amazon.Lambda.Serialization.SystemTextJson" Version="2.4.4" />
+
+        <!-- AWS SDK for DynamoDB -->
+        <PackageReference Include="AWSSDK.DynamoDBv2" Version="4.0.3.1" />
+
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- Project references -->
+        <ProjectReference Include="..\Application\Application.csproj" />
+        <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+        <ProjectReference Include="..\Domain\Domain.csproj" />
+    </ItemGroup>
 </Project>
