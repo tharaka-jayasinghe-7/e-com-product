@@ -24,4 +24,20 @@ public class DynamoDbProductRepository : IProductRepository
     {
         return await _context.LoadAsync<Product>(id);
     }
+    
+    public async Task UpdateProductAsync(Product product)
+    {
+        await _context.SaveAsync(product); // SaveAsync updates if item exists
+    }
+
+    public async Task DeleteProductAsync(string id)
+    {
+        await _context.DeleteAsync<Product>(id);
+    }
+
+    public async Task<List<Product>> GetAllProductsAsync()
+    {
+        var scanConditions = new List<ScanCondition>(); // no filters = get all
+        return await _context.ScanAsync<Product>(scanConditions).GetRemainingAsync();
+    }
 }
