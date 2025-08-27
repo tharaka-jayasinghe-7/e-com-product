@@ -1,0 +1,51 @@
+﻿AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Product Service with Lambda, API Gateway, and DynamoDB
+
+Globals:
+  Function:
+    Runtime: dotnet8
+    MemorySize: 256
+    Timeout: 10
+
+Resources:
+
+  ProductsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Products
+      AttributeDefinitions:
+        - AttributeName: Id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: Id
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+
+  AddProductFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: ProductServiceLambda::ProductServiceLambda.Functions.AddProductFunction::FunctionHandler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ProductsTable
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /product
+            Method: post
+
+  GetProductFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: ProductServiceLambda::ProductServiceLambda.Functions.GetProductFunction::FunctionHandler
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref ProductsTable
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /product/{id}
+            Method: get

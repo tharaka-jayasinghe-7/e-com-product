@@ -3,7 +3,7 @@
     "ProjectDescription": "Product Service Lambda"
   },
   "profile": "default",
-  "region": "ap-south-1",
+  "region": "us-east-1",
   "configuration": "Release",
   "function-runtime": "dotnet8",
   "framework": "net8.0",

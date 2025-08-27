@@ -2,7 +2,7 @@
 
 namespace Domain.Entities;
 
-[DynamoDBTable("ProductsTable")]
+[DynamoDBTable("Products")]
 public class Product
 {
     [DynamoDBHashKey]
