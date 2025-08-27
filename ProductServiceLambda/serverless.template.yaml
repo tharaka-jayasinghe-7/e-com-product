@@ -49,3 +49,42 @@ Resources:
           Properties:
             Path: /product/{id}
             Method: get
+
+  UpdateProductFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: ProductServiceLambda::ProductServiceLambda.Functions.UpdateProductFunction::FunctionHandler
+      Policies:
+        - AmazonDynamoDBFullAccess
+      Events:
+        UpdateProductApi:
+          Type: Api
+          Properties:
+            Path: /product
+            Method: put
+
+  DeleteProductFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: ProductServiceLambda::ProductServiceLambda.Functions.DeleteProductFunction::FunctionHandler
+      Policies:
+        - AmazonDynamoDBFullAccess
+      Events:
+        DeleteProductApi:
+          Type: Api
+          Properties:
+            Path: /product/{id}
+            Method: delete
+
+  GetAllProductsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: ProductServiceLambda::ProductServiceLambda.Functions.GetAllProductsFunction::FunctionHandler
+      Policies:
+        - AmazonDynamoDBFullAccess
+      Events:
+        GetAllProductsApi:
+          Type: Api
+          Properties:
+            Path: /products
+            Method: get
