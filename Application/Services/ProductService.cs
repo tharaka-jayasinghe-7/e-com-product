@@ -2,63 +2,82 @@
 using Domain.Interfaces;
 using Application.DTOs;
 
-namespace Application.Services;
-
-public class ProductService
+namespace Application.Services
 {
-    private readonly IProductRepository _repository;
-
-    public ProductService(IProductRepository repository)
+    public class ProductService
     {
-        _repository = repository;
-    }
+        private readonly IProductRepository _repository;
 
-    // ✅ Add new product
-    public async Task AddProductAsync(ProductDto dto)
-    {
-        var product = new Product
+        public ProductService(IProductRepository repository)
         {
-            Name = dto.Name,
-            Price = dto.Price
-        };
+            _repository = repository;
+        }
 
-        await _repository.AddProductAsync(product);
-    }
+        // ✅ Add new product
+        public async Task AddProductAsync(ProductDto dto)
+        {
+            var product = new Product
+            {
+                Name = dto.Name,
+                Price = dto.Price,
+                OriginalPrice = dto.OriginalPrice,
+                ImageUrl = dto.ImageUrl,
+                Category = dto.Category,
+                Rating = dto.Rating,
+                Reviews = dto.Reviews,
+                IsNew = dto.IsNew,
+                Sale = dto.Sale,
+                Description = dto.Description,
+                Features = dto.Features
+            };
 
-    // ✅ Get product by Id
-    public async Task<Product?> GetProductByIdAsync(string id)
-    {
-        return await _repository.GetProductByIdAsync(id);
-    }
+            await _repository.AddProductAsync(product);
+        }
 
-    // ✅ Get all products
-    public async Task<IEnumerable<Product>> GetAllProductsAsync()
-    {
-        return await _repository.GetAllProductsAsync();
-    }
+        // ✅ Get product by Id
+        public async Task<Product?> GetProductByIdAsync(string id)
+        {
+            return await _repository.GetProductByIdAsync(id);
+        }
 
-    // ✅ Update product
-    public async Task<bool> UpdateProductAsync(string id, ProductDto dto)
-    {
-        var existing = await _repository.GetProductByIdAsync(id);
-        if (existing == null)
-            return false;
+        // ✅ Get all products
+        public async Task<IEnumerable<Product>> GetAllProductsAsync()
+        {
+            return await _repository.GetAllProductsAsync();
+        }
 
-        existing.Name = dto.Name;
-        existing.Price = dto.Price;
+        // ✅ Update product
+        public async Task<bool> UpdateProductAsync(string id, ProductDto dto)
+        {
+            var existing = await _repository.GetProductByIdAsync(id);
+            if (existing == null)
+                return false;
 
-        await _repository.UpdateProductAsync(existing);
-        return true;
-    }
+            existing.Name = dto.Name;
+            existing.Price = dto.Price;
+            existing.OriginalPrice = dto.OriginalPrice;
+            existing.ImageUrl = dto.ImageUrl;
+            existing.Category = dto.Category;
+            existing.Rating = dto.Rating;
+            existing.Reviews = dto.Reviews;
+            existing.IsNew = dto.IsNew;
+            existing.Sale = dto.Sale;
+            existing.Description = dto.Description;
+            existing.Features = dto.Features;
 
-    // ✅ Delete product
-    public async Task<bool> DeleteProductAsync(string id)
-    {
-        var existing = await _repository.GetProductByIdAsync(id);
-        if (existing == null)
-            return false;
+            await _repository.UpdateProductAsync(existing);
+            return true;
+        }
 
-        await _repository.DeleteProductAsync(id);
-        return true;
+        // ✅ Delete product
+        public async Task<bool> DeleteProductAsync(string id)
+        {
+            var existing = await _repository.GetProductByIdAsync(id);
+            if (existing == null)
+                return false;
+
+            await _repository.DeleteProductAsync(id);
+            return true;
+        }
     }
 }
